@@ -1,17 +1,19 @@
-from fastapi import FastAPI
-
+from fastapi import FastAPI,Response
+from fastapi.exceptions import StarletteHTTPException
+from znzmo.znzup import znzmo
+import json
 app = FastAPI()
+app.include_router(znzmo)
 
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
-
-
-@app.get("/hello/{name}")
-async def say_hello(name: str):
-    return {"message": f"Hello {name}"}
-
+@app.exception_handler(StarletteHTTPException)
+async def not_found(request, exc):
+    return Response(
+        json.dumps(
+            {"code": 404,
+             "message": f"您要找的页面 {request.url} 去火星了。"}),
+        status_code=404
+    )
 
 if __name__ == '__main__':
     import uvicorn

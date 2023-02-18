@@ -8,3 +8,8 @@ GET http://127.0.0.1:8800/hello/User
 Accept: application/json
 
 ###
+GET http://localhost:8800/znzmo/dsjifev
+Accept: application/json
+Protocol-Query:id=2
+
+###
